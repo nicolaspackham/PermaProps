@@ -14,6 +14,8 @@ ____                                    ____
     For internal purposes.
 ]]--
 
+local COL_1 = Color(255,23,23)
+
 local CloseButton = {}
 
 function CloseButton:Init()
@@ -38,7 +40,7 @@ function CloseButton:Paint(w, h)
 
     draw.RoundedBoxEx(5, 0, 0, w, h, color, true, true, true, true)
 
-    draw.DrawText("X", "PermaProps.Title2", w / 2, h * .09, Color(255,23,23), TEXT_ALIGN_CENTER)
+    draw.DrawText("X", "PermaProps.Title2", w / 2, h * .09, COL_1, TEXT_ALIGN_CENTER)
 end
 
 function CloseButton:DoClickInternal()

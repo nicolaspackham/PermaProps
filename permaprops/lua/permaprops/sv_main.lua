@@ -30,13 +30,25 @@ util.AddNetworkString("PermaPropsSystem.UpdateProperty")
 util.AddNetworkString("PermaPropsSystem.UpdateProperties")
 util.AddNetworkString("PermaPropsSystem.RequestID")
 
+local COL_1 = Color(255,255,255)
+local COL_2 = Color(244,200,2)
+local COL_3 = Color(255,175,55)
+local COL_4 = Color(221,59,59)
+local COL_5 = Color(244,220,2)
+local COL_6 = Color(2,244,42)
+local COL_7 = Color(244,179,2)
+local COL_8 = Color(255,238,0)
+local COL_9 = Color(2,244,2)
+local COL_10 = Color(255,0,0)
+local COL_11 = Color(199,0,0)
+
 local imported = false
 
 PermaPropsSystem.CurrentPropsCount = PermaPropsSystem.CurrentPropsCount or 0
 
 function PermaPropsSystem:ClearFullDatabase()
     PermaPropsSystem:SQLQuery( "DROP TABLE IF EXISTS permaprops_system" )
-    PermaPropsSystem:Print(Color(244,200,2), "Successfully cleared the whole database.")
+    PermaPropsSystem:Print(COL_2, "Successfully cleared the whole database.")
     PermaPropsSystem:InitializeSQL()
     return true
 end
@@ -105,14 +117,14 @@ function PermaPropsSystem:SpawnProp(propData)
     local ent = ents.Create(propData.class)
 
     if not IsValid(ent) then
-        PermaPropsSystem:Print(Color(255,175,55), "ERROR, attempted to create an invalid entity type ("..propData.class..")")
+        PermaPropsSystem:Print(COL_3, "ERROR, attempted to create an invalid entity type ("..propData.class..")")
 	    return
 	end
 
     ent:SetPos(propData.data.pos or Vector(0,0,0))
     ent:SetAngles(propData.data.ang or Angle(0,0,0))
     ent:SetModel(propData.model or "models/props_borealis/bluebarrel001.mdl")
-    ent:SetColor(propData.data.color or Color(255,255,255))
+    ent:SetColor(propData.data.color or COL_1)
 
     hook.Run("PermaProps.PreSpawn", ent, propData.data)
 
@@ -127,6 +139,10 @@ function PermaPropsSystem:SpawnProp(propData)
 
     if propData.data.keyvalues then
         for k, v in pairs(propData.data.keyvalues) do
+            if not k or not v then
+                continue
+            end
+            
             ent:SetKeyValue(k, v)
         end
     end
@@ -320,7 +336,7 @@ end
 
 function PermaPropsSystem:Import()
     if imported then
-        PermaPropsSystem:Print(Color(221,59,59), "You have already imported all PermaProps.")
+        PermaPropsSystem:Print(COL_4, "You have already imported all PermaProps.")
         return
     end
 
@@ -328,7 +344,7 @@ function PermaPropsSystem:Import()
     PermaPropsSystem:SQLQuery( "SELECT * FROM permaprops", function(oldData)
         if not oldData then print("No data found!") return end
 
-        PermaPropsSystem:Print(Color(244,220,2), "Starting the importer...")
+        PermaPropsSystem:Print(COL_5, "Starting the importer...")
 
         for k, v in pairs(oldData) do
 
@@ -356,13 +372,13 @@ function PermaPropsSystem:Import()
 
         local endTime = SysTime()
 
-        PermaPropsSystem:Print(Color(2,244,42), "Successfully imported ".. #oldData.. " entities to the new database in ".. endTime - startTime.. " seconds.")
-        PermaPropsSystem:Print(Color(244,220,2), "After a mapchange, the PermaProps are now spawned with the new system. You should also remove the old addon, otherwise it will be spawned twice.")
+        PermaPropsSystem:Print(COL_6, "Successfully imported ".. #oldData.. " entities to the new database in ".. endTime - startTime.. " seconds.")
+        PermaPropsSystem:Print(COL_5, "After a mapchange, the PermaProps are now spawned with the new system. You should also remove the old addon, otherwise it will be spawned twice.")
     end, false, true)
 end
 
 function PermaPropsSystem:RespawnPermaProps()
-    for k, v in pairs(ents.GetAll()) do
+    for k, v in ipairs(ents.GetAll()) do
         if v.PermaPropID then SafeRemoveEntity(v) end
     end
     PermaPropsSystem.CurrentPropsCount = 0
@@ -408,12 +424,12 @@ function PermaPropsSystem:CheckLatestVersion()
         -- onSuccess function
         function(body, length, headers, code)
             if body != PermaPropsSystem.Version then
-                PermaPropsSystem:Print(Color(244,179,2), "----------------------------------------------")
-                PermaPropsSystem:Print(Color(244,179,2), "You are not using the latest version.")
-                PermaPropsSystem:Print(Color(244,179,2), "Your Version: ".. PermaPropsSystem.Version.. " | Latest Version: ".. body)
-                PermaPropsSystem:Print(Color(244,179,2), "----------------------------------------------")
+                PermaPropsSystem:Print(COL_7, "----------------------------------------------")
+                PermaPropsSystem:Print(COL_7, "You are not using the latest version.")
+                PermaPropsSystem:Print(COL_7, "Your Version: ".. PermaPropsSystem.Version.. " | Latest Version: ".. body)
+                PermaPropsSystem:Print(COL_7, "----------------------------------------------")
             else
-                PermaPropsSystem:Print(Color(2,244,2), "Addon is up to date ("..PermaPropsSystem.Version..")")
+                PermaPropsSystem:Print(COL_9, "Addon is up to date ("..PermaPropsSystem.Version..")")
             end
         end,
 
@@ -446,14 +462,14 @@ end)
 hook.Add("PermaPropsSystem.SQLReady", "PermaProps.CheckOverlapping", function()
     timer.Simple(10, function()
         if PermaProps and PermaProps.Permissions then
-            PermaPropsSystem:Print(Color(199,0,0), "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
+            PermaPropsSystem:Print(COL_11, "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
             timer.Create("PermaProps.Warning", 60, 0, function()
-                PermaPropsSystem:Print(Color(199,0,0), "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
+                PermaPropsSystem:Print(COL_11, "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
             end)
             hook.Add("PlayerSpawn", "PermaProps.OverlappingUsermessage", function(ply)
                 if ply:IsAdmin() then
                     timer.Simple(4, function()
-                        ply:PermaPropMessage(Color(255,0,0), "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
+                        ply:PermaPropMessage(COL_10, "You have the old PermaProps addon installed. Uninstall it or you will have compatibility problems.")
                     end)
                 end
             end)
@@ -514,10 +530,10 @@ net.Receive("PermaPropsSystem.ExecuteTasks", function(len, ply)
     local clearInvalidModels = net.ReadBool()
     local respawnPermaProps = net.ReadBool()
 
-    if clearMapProps then PermaPropsSystem:RemoveAllPropsOnMap() ply:PermaPropMessage("Performed task: ", Color(255,238,0), "ClearMapProps") end
-    if clearDatabase then PermaPropsSystem:RemoveEverything() ply:PermaPropMessage("Performed task: ", Color(255,238,0), "ClearDatabase") end
-    if clearInvalidModels then PermaPropsSystem:RemoveInvalids() ply:PermaPropMessage("Performed task: ", Color(255,238,0), "ClearInvalidModels") end
-    if respawnPermaProps then PermaPropsSystem:RespawnPermaProps() ply:PermaPropMessage("Performed task: ", Color(255,238,0), "RespawnPermaProps") end
+    if clearMapProps then PermaPropsSystem:RemoveAllPropsOnMap() ply:PermaPropMessage("Performed task: ", COL_8, "ClearMapProps") end
+    if clearDatabase then PermaPropsSystem:RemoveEverything() ply:PermaPropMessage("Performed task: ", COL_8, "ClearDatabase") end
+    if clearInvalidModels then PermaPropsSystem:RemoveInvalids() ply:PermaPropMessage("Performed task: ", COL_8, "ClearInvalidModels") end
+    if respawnPermaProps then PermaPropsSystem:RespawnPermaProps() ply:PermaPropMessage("Performed task: ", COL_8, "RespawnPermaProps") end
 end)
 
 net.Receive("PermaPropsSystem.MassRemoving", function(len, ply)
@@ -530,7 +546,7 @@ net.Receive("PermaPropsSystem.MassRemoving", function(len, ply)
         PermaPropsSystem:RemovePropByID(v, false)
     end
 
-    ply:PermaPropMessage("Successfully removed PermaProps with the IDs: ", Color(255,238,0), table.concat(ids, ", "))
+    ply:PermaPropMessage("Successfully removed PermaProps with the IDs: ", COL_8, table.concat(ids, ", "))
 end)
 
 net.Receive("PermaPropsSystem.HighlightEntity", function(len, ply)

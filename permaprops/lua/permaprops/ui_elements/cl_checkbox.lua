@@ -17,11 +17,13 @@ ____                                    ____
 local Checkbox = {}
 local theme = PermaPropsSystem.Config.Theme
 
+local COL_1 = Color(93,255,72)
+
 function Checkbox:Init()
 	self.status = false
 
     self.firstColor = Color(theme.bg.r + 16, theme.bg.g + 16, theme.bg.b + 16)
-    self.secondColor = Color(93,255,72)
+    self.secondColor = COL_1
 
     self.xLerp = 0
     self.yLerp = 0

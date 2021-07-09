@@ -15,14 +15,19 @@ ____                                    ____
     The SQL stuff is handled here.
 ]]--
 
+local COL_1 = Color(255,175,55)
+local COL_2 = Color(255,55,55)
+local COL_3 = Color(13,158,0)
+local COL_4 = Color(2,244,42)
+
 hook.Add("PermaPropsSystem.Loaded", "InitializePermaPropsMySQL", function()
     if PermaPropsSystem.Config.UseMySQL then
-        PermaPropsSystem:Print(Color(255,175,55), "Use mysql as database type.")
+        PermaPropsSystem:Print(COL_1, "Use mysql as database type.")
         require("mysqloo")
 
         PermaPropsSystem:SQLConnect()
     else
-        PermaPropsSystem:Print(Color(255,175,55), "Use local sv.db as database type.")
+        PermaPropsSystem:Print(COL_1, "Use local sv.db as database type.")
         hook.Run("PermaPropsSystem.SQLReady")
     end
 end)
@@ -58,14 +63,14 @@ function PermaPropsSystem:SQLConnect()
     PermaPropsSystem.MySQL = mysqloo.connect(PermaPropsSystem.Config.MySQL["host"], PermaPropsSystem.Config.MySQL["username"], PermaPropsSystem.Config.MySQL["password"], PermaPropsSystem.Config.MySQL["db"], PermaPropsSystem.Config.MySQL["port"])
 
     function PermaPropsSystem.MySQL:onConnected()
-        PermaPropsSystem:Print(Color(13,158,0), "MySQL database connection successfully established.")
+        PermaPropsSystem:Print(COL_3, "MySQL database connection successfully established.")
         hook.Run("PermaPropsSystem.SQLReady")
     end
 
     function PermaPropsSystem.MySQL:onConnectionFailed(error)
-        PermaPropsSystem:Print(Color(255,55,55), "Could not connect to MySQL database!")
-        PermaPropsSystem:Print(Color(255,55,55), "[Error] ")
-        PermaPropsSystem:Print(Color(255,55,55), error)
+        PermaPropsSystem:Print(COL_2, "Could not connect to MySQL database!")
+        PermaPropsSystem:Print(COL_2, "[Error] ")
+        PermaPropsSystem:Print(COL_2, error)
     end
 
     PermaPropsSystem.MySQL:connect()
@@ -86,5 +91,5 @@ function PermaPropsSystem:InitializeSQL()
     -- time INTEGER: Unix time code
     -- data TEXT: TableToJSON Data
 
-    PermaPropsSystem:Print(Color(2,244,42), "Successfully Initialized the database.")
+    PermaPropsSystem:Print(COL_4, "Successfully Initialized the database.")
 end

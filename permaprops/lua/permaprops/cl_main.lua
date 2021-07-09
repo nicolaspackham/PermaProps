@@ -15,6 +15,18 @@ ____                                    ____
     Main file for the clientside stuff.
 ]]--
 
+local COL_1 = Color(105, 105, 105)
+local COL_2 = Color(0, 0, 0, 100)
+local COL_3 = Color(85, 85, 85)
+local COL_4 = Color(138,138,138)
+local COL_5 = Color(68,68,68)
+local COL_6 = Color(141,141,141)
+local COL_7 = Color(48,48,48)
+local COL_8 = Color(150,150,150)
+local COL_9 = Color(0,109,182)
+local COL_10 = Color(73,182,255)
+local COL_11 = Color(0, 201, 50)
+
 PermaPropsSystem.Overview = {}
 PermaPropsSystem.Settings = {}
 local theme = PermaPropsSystem.Config.Theme
@@ -199,11 +211,11 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
         surface.SetMaterial(Material("gui/gradient"))
         surface.DrawTexturedRect(0, h * .075, w, h * .005)
 
-        draw.SimpleText("Map: ".. map.. " | Downloaded: ".. tblCount.. " | Total: ".. total.. "/".. PermaPropsSystem.Config.Limit, "PermaProps.DetailText", w * .01, h * .084, Color(255,255,255), TEXT_ALIGN_LEFT)
+        draw.SimpleText("Map: ".. map.. " | Downloaded: ".. tblCount.. " | Total: ".. total.. "/".. PermaPropsSystem.Config.Limit, "PermaProps.DetailText", w * .01, h * .084, color_white, TEXT_ALIGN_LEFT)
 
         if #selectedIDs <= 0 then return end
 
-        draw.SimpleText(#selectedIDs..  " selected entries", "PermaProps.DetailText", w * .01, h * .97, Color(141,141,141), TEXT_ALIGN_LEFT)
+        draw.SimpleText(#selectedIDs..  " selected entries", "PermaProps.DetailText", w * .01, h * .97, COL_6, TEXT_ALIGN_LEFT)
     end
 
     self.SearchBar = vgui.Create("DPanel", self.MainFrame)
@@ -248,16 +260,16 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
 
             local sbar = self.PermaPropList:GetVBar()
             function sbar:Paint(w, h)
-                draw.RoundedBox(0, 0, 0, w * .3, h, Color(0, 0, 0, 100))
+                draw.RoundedBox(0, 0, 0, w * .3, h, COL_2)
             end
             function sbar.btnUp:Paint(w, h)
-                draw.RoundedBox(0, 0, 0, w * .3, h, Color(85, 85, 85))
+                draw.RoundedBox(0, 0, 0, w * .3, h, COL_3)
             end
             function sbar.btnDown:Paint(w, h)
-                draw.RoundedBox(0, 0, 0, w * .3, h, Color(85, 85, 85))
+                draw.RoundedBox(0, 0, 0, w * .3, h, COL_3)
             end
             function sbar.btnGrip:Paint(w, h)
-                draw.RoundedBox(0, 0, 0, w * .3, h, Color(85, 85, 85))
+                draw.RoundedBox(0, 0, 0, w * .3, h, COL_3)
             end
 
             sbar.LerpTarget = 0
@@ -343,11 +355,11 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
 
                     draw.RoundedBox(3, 0, 0, w, h, bgCol)
 
-                    draw.SimpleText("#"..prop.id, "PermaProps.Text", wStatic * .16, h * .3, Color(138,138,138), TEXT_ALIGN_LEFT)
-                    draw.SimpleText(prop.model, "PermaProps.Text", wStatic * .25, hStatic * .25, Color(138,138,138), TEXT_ALIGN_LEFT)
-                    draw.SimpleText(prop.class, "PermaProps.Text", wStatic * .75, h * .25, Color(138,138,138), TEXT_ALIGN_LEFT)
+                    draw.SimpleText("#"..prop.id, "PermaProps.Text", wStatic * .16, h * .3, COL_4, TEXT_ALIGN_LEFT)
+                    draw.SimpleText(prop.model, "PermaProps.Text", wStatic * .25, hStatic * .25, COL_4, TEXT_ALIGN_LEFT)
+                    draw.SimpleText(prop.class, "PermaProps.Text", wStatic * .75, h * .25, COL_4, TEXT_ALIGN_LEFT)
 
-                    draw.SimpleText(propPanel.steamName.. " | ".. os.date(PermaPropsSystem.Config.TimeString, prop.time), "PermaProps.DetailText", wStatic * .25, hStatic * .92, Color(68,68,68), TEXT_ALIGN_LEFT)
+                    draw.SimpleText(propPanel.steamName.. " | ".. os.date(PermaPropsSystem.Config.TimeString, prop.time), "PermaProps.DetailText", wStatic * .25, hStatic * .92, COL_5, TEXT_ALIGN_LEFT)
                 end
 
                 local Selector = vgui.Create("PermaProps.Checkbox", propPanel)
@@ -405,7 +417,7 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
                                 if self:IsHovered() then
                                     draw.RoundedBox(6, 0, 0, width, height, PermaPropsSystem.Config.Theme.primary)
                                 else
-                                    draw.RoundedBox(6, 0, 0, width, height, Color(48,48,48))
+                                    draw.RoundedBox(6, 0, 0, width, height, COL_7)
                                 end
                             end
 
@@ -428,7 +440,7 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
                         if self:IsHovered() then
                             draw.RoundedBox(6, 0, 0, width, height, PermaPropsSystem.Config.Theme.primary)
                         else
-                            draw.RoundedBox(6, 0, 0, width, height, Color(48,48,48))
+                            draw.RoundedBox(6, 0, 0, width, height, COL_7)
                         end
                     end
                     local icon = vgui.Create("DImage", _editMenu)
@@ -454,7 +466,7 @@ function PermaPropsSystem.Overview:OpenMenu(openID)
                                 if self:IsHovered() then
                                     draw.RoundedBox(6, 0, 0, width, height, PermaPropsSystem.Config.Theme.primary)
                                 else
-                                    draw.RoundedBox(6, 0, 0, width, height, Color(48,48,48))
+                                    draw.RoundedBox(6, 0, 0, width, height, COL_7)
                                 end
                             end
 
@@ -530,14 +542,14 @@ function PermaPropsSystem.Settings:OpenMenu()
         surface.SetMaterial(Material("gui/gradient"))
         surface.DrawTexturedRect(0, h * .094, w, h * .005)
 
-        draw.DrawText("Tasks", "PermaProps.Title2", w * .03, h * .14, Color(150,150,150), TEXT_ALIGN_LEFT)
+        draw.DrawText("Tasks", "PermaProps.Title2", w * .03, h * .14, COL_8, TEXT_ALIGN_LEFT)
 
-        draw.DrawText("Clear all PermaProps on Map ".. game.GetMap(), "PermaProps.Text", w * .08, h * .22, Color(150,150,150), TEXT_ALIGN_LEFT)
-        draw.DrawText("Clear whole database", "PermaProps.Text", w * .08, h * .3, Color(150,150,150), TEXT_ALIGN_LEFT)
-        draw.DrawText("Remove invalid PermaProps on Map ".. game.GetMap(), "PermaProps.Text", w * .08, h * .38, Color(150,150,150), TEXT_ALIGN_LEFT)
-        draw.DrawText("Respawn all PermaProps", "PermaProps.Text", w * .08, h * .46, Color(150,150,150), TEXT_ALIGN_LEFT)
+        draw.DrawText("Clear all PermaProps on Map ".. game.GetMap(), "PermaProps.Text", w * .08, h * .22, COL_8, TEXT_ALIGN_LEFT)
+        draw.DrawText("Clear whole database", "PermaProps.Text", w * .08, h * .3, COL_8, TEXT_ALIGN_LEFT)
+        draw.DrawText("Remove invalid PermaProps on Map ".. game.GetMap(), "PermaProps.Text", w * .08, h * .38, COL_8, TEXT_ALIGN_LEFT)
+        draw.DrawText("Respawn all PermaProps", "PermaProps.Text", w * .08, h * .46, COL_8, TEXT_ALIGN_LEFT)
 
-        draw.DrawText("PermaProps Version "..PermaPropsSystem.Version, "PermaProps.Text", w * .5, h * .9, Color(150,150,150), TEXT_ALIGN_CENTER)
+        draw.DrawText("PermaProps Version "..PermaPropsSystem.Version, "PermaProps.Text", w * .5, h * .9, COL_8, TEXT_ALIGN_CENTER)
     end
 
     self.Link = vgui.Create("DButton", self.MainFrame)
@@ -546,9 +558,9 @@ function PermaPropsSystem.Settings:OpenMenu()
     self.Link:SetText("")
     self.Link.Paint = function(me,w,h)
         if me:IsHovered() then
-            draw.DrawText("Created by Summe", "PermaProps.DetailText", w * .5, 0, Color(0,109,182), TEXT_ALIGN_CENTER)
+            draw.DrawText("Created by Summe", "PermaProps.DetailText", w * .5, 0, COL_9, TEXT_ALIGN_CENTER)
         else
-            draw.DrawText("Created by Summe", "PermaProps.DetailText", w * .5, 0, Color(73,182,255), TEXT_ALIGN_CENTER)
+            draw.DrawText("Created by Summe", "PermaProps.DetailText", w * .5, 0, color_white0, TEXT_ALIGN_CENTER)
         end
     end
     self.Link.DoClick = function()
@@ -573,14 +585,14 @@ function PermaPropsSystem.Settings:OpenMenu()
 
     self.Execute = vgui.Create("DButton", self.MainFrame)
     self.Execute:SetText("Execute")
-    self.Execute:SetTextColor(Color(255, 255, 255))
+    self.Execute:SetTextColor(col_white)
     self.Execute:SetFont("PermaProps.Text")
     self.Execute:SetPos(width * .03, height * .57 )
     self.Execute:SetSize(width * .2, height * .06 )
     local barStatus = 0
     local hoverAnimSpeed = 6
     self.Execute.Paint = function(self, w, h)
-        draw.RoundedBox(3, 0, 0, w, h, Color(105, 105, 105))
+        draw.RoundedBox(3, 0, 0, w, h, COL_1)
 
         if self:IsHovered() then 
             barStatus = math.Clamp(barStatus + hoverAnimSpeed * FrameTime(), 0, 1)
@@ -588,7 +600,7 @@ function PermaPropsSystem.Settings:OpenMenu()
             barStatus = math.Clamp(barStatus - hoverAnimSpeed * FrameTime(), 0, 1)
         end
 
-        draw.RoundedBox(3, 0, 0, w * barStatus, h * 1, Color(0, 201, 50))
+        draw.RoundedBox(3, 0, 0, w * barStatus, h * 1,COL_11)
     end
     
     function self.Execute.DoClick()

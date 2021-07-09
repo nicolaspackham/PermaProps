@@ -15,6 +15,11 @@ ____                                    ____
     Main file for shared stuff.
 ]]--
 
+local COL_1 = Color(90,90,90)
+local COL_2 = Color(255,255,255)
+local COL_3 = Color(255,0,0)
+local COL_4 = Color(214,11,255)
+
 if SERVER then
     local ply = FindMetaTable("Player")
 
@@ -25,7 +30,7 @@ if SERVER then
     end
 else
     net.Receive("PermaPropsSystem.ChatMessage", function(len)
-        chat.AddText(Color(214,11,255), "PermaProps", Color(90,90,90)," » ", Color(255,255,255), unpack(net.ReadTable()))
+        chat.AddText(COL_4, "PermaProps", COL_1," » ", COL_2, unpack(net.ReadTable()))
     end)
 end
 
@@ -36,17 +41,16 @@ function PermaPropsSystem:PlayerHasPermission(ply, permission, preventMessage)
         if preventMessage then return false end
 
         if SERVER then
-            ply:PermaPropMessage(Color(255,0,0), "You do not have enough permissions: ".. permission)
+            ply:PermaPropMessage(COL_3, "You do not have enough permissions: ".. permission)
         else
-            chat.AddText(Color(214,11,255), "PermaProps", Color(90,90,90)," » ", Color(255,0,0), "You do not have enough permissions: ".. permission)
+            chat.AddText(COL_4, "PermaProps", COL_1," » ", COL_3, "You do not have enough permissions: ".. permission)
         end
         return false
     end
 end
 
 function PermaPropsSystem:Print(color, text)
-    MsgC(Color(214,11,255), "[PermaProps] ", color, text)
-    print("")
+    MsgC(COL_4, "[PermaProps] ", color, text.."\n")
 end
 
 CAMI.RegisterPrivilege({

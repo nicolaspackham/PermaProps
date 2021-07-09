@@ -14,12 +14,15 @@ ____                                    ____
     For internal purposes.
 ]]--
 
+local COL_1 = Color(180, 180, 180)
+local COL_2 = Color(50,255,23)
+
 local PageButton = {}
 
 function PageButton:Init()
     self.Color = PermaPropsSystem.Config.Theme.navButton
     self.HoverColor = Color(self.Color.r + 16, self.Color.g + 16, self.Color.b + 16, 255)
-    self.DisabledColor = Color(180, 180, 180)
+    self.DisabledColor = COL_1
     self:SetText("")
 end
 
@@ -36,7 +39,7 @@ function PageButton:Paint(w, h)
 
     draw.RoundedBoxEx(5, 0, 0, w, h, color, true, true, true, true)
 
-    draw.DrawText(self.Text, "PermaProps.Title2Symbol", w / 2, h * .09, Color(50,255,23), TEXT_ALIGN_CENTER)
+    draw.DrawText(self.Text, "PermaProps.Title2Symbol", w / 2, h * .09, COL_2, TEXT_ALIGN_CENTER)
 end
 
 
